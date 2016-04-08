@@ -17,33 +17,34 @@ def get_loaded_rules(rules_paths):
             if rule.is_enabled:
                 yield rule
 
+
 def get_categories(command):
     """
     CATEGORIES = {folder : [keywords]}
     """
-    CATEGORIES = {'git' : {'git'},
-                  'brew' : {'brew'},
-                  'django' : {'manage.py', 'migrate'}}
+    CATEGORIES = {'git': {'git'},
+                  'brew': {'brew'},
+                  'django': {'manage.py', 'migrate'}}
     rules = []
     rules += Path(__file__).parent \
-            .joinpath('rules') \
-            .joinpath('other') \
-            .glob('*.py')
+        .joinpath('rules') \
+        .joinpath('other') \
+        .glob('*.py')
 
     for category, keywords in CATEGORIES.items():
         if set(keywords).issubset(set(command.script.split())):
             logs.debug("Using category: " + category)
             rules += Path(__file__).parent \
-                     .joinpath('rules') \
-                     .joinpath(category) \
-                     .glob('*.py')
+                .joinpath('rules') \
+                .joinpath(category) \
+                .glob('*.py')
         else:
             logs.debug("Ignoring category: " + category)
 
     return rules
 
 
-def get_rules(command):         
+def get_rules(command):
     """Returns all enabled rules.
 
     :rtype: [Rule]
