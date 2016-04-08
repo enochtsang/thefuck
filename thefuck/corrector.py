@@ -17,16 +17,40 @@ def get_loaded_rules(rules_paths):
             if rule.is_enabled:
                 yield rule
 
+def get_categories(command):
+    """
+    CATEGORIES = {folder : [keywords]}
+    """
+    CATEGORIES = {'git' : {'git'},
+                  'brew' : {'brew'},
+                  'django' : {'manage.py', 'migrate'}}
+    rules = []
+    rules += Path(__file__).parent \
+            .joinpath('rules') \
+            .joinpath('other') \
+            .glob('*.py')
+    
+    logs.debug("Getting categories")
 
-def get_rules():
+    for category, keywords in CATEGORIES.items():
+        if set(keywords).issubset(set(command.script.split())) and \
+           set(keywords).issuperset(set(command.script.split())):
+            logs.debug("Using category " + category)
+            rules += Path(__file__).parent \
+                     .joinpath('rules') \
+                     .joinpath(category) \
+                     .glob('*.py')
+
+    return rules;
+
+
+def get_rules(command):
     """Returns all enabled rules.
 
     :rtype: [Rule]
 
     """
-    bundled = Path(__file__).parent \
-        .joinpath('rules') \
-        .glob('*.py')
+    bundled = get_categories(command)
     user = settings.user_dir.joinpath('rules').glob('*.py')
     return sorted(get_loaded_rules(sorted(bundled) + sorted(user)),
                   key=lambda rule: rule.priority)
@@ -69,7 +93,7 @@ def get_corrected_commands(command):
 
     """
     corrected_commands = (
-        corrected for rule in get_rules()
+        corrected for rule in get_rules(command)
         if rule.is_match(command)
         for corrected in rule.get_corrected_commands(command))
     return organize_commands(corrected_commands)
