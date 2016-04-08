@@ -30,21 +30,21 @@ def get_categories(command):
             .joinpath('other') \
             .glob('*.py')
     
-    logs.debug("Getting categories")
 
     for category, keywords in CATEGORIES.items():
-        if set(keywords).issubset(set(command.script.split())) and \
-           set(keywords).issuperset(set(command.script.split())):
-            logs.debug("Using category " + category)
+        if set(keywords).issubset(set(command.script.split())):
+            logs.debug("Using category: " + category)
             rules += Path(__file__).parent \
                      .joinpath('rules') \
                      .joinpath(category) \
                      .glob('*.py')
+        else:
+            logs.debug("Ignoring category: " + category)
 
-    return rules;
+    return rules
 
 
-def get_rules(command):
+def get_rules(command):         
     """Returns all enabled rules.
 
     :rtype: [Rule]
