@@ -29,7 +29,6 @@ def get_categories(command):
             .joinpath('rules') \
             .joinpath('other') \
             .glob('*.py')
-    
 
     for category, keywords in CATEGORIES.items():
         if set(keywords).issubset(set(command.script.split())):
