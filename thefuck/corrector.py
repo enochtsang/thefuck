@@ -31,7 +31,8 @@ def get_categories(command):
                   'maven': {'mvn'},
                   'pacman': {'pacman'},
                   'pacman': {'yaourt'},
-                  'cd': {'cd'}
+                  'cd': {'cd'},
+                  'python': {'python'}
 
                   }
     rules = []
