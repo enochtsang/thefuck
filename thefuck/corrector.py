@@ -29,6 +29,7 @@ def get_categories(command):
                   'grep': {'egrep'},
                   'cargo': {'cargo'},
                   'maven': {'mvn'},
+                  'rm': {'rm'},
                   'pacman': {'pacman'},
                   'pacman': {'yaourt'},
                   'cd': {'cd'},
