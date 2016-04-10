@@ -24,7 +24,14 @@ def get_categories(command):
     """
     CATEGORIES = {'git': {'git'},
                   'brew': {'brew'},
-                  'django': {'manage.py', 'migrate'}}
+                  'django': {'manage.py', 'migrate'},
+                  'grep': {'grep'},
+                  'grep': {'egrep'},
+                  'cargo': {'cargo'},
+                  'maven': {'mvn'},
+                  'rm': {'rm'},
+                  'cd': {'cd'},
+                  'cd': {'cd..'}}
     rules = []
     rules += Path(__file__).parent \
         .joinpath('rules') \
