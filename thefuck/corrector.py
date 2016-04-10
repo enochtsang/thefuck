@@ -33,6 +33,7 @@ def get_categories(command):
                   'pacman': {'pacman'},
                   'pacman': {'yaourt'},
                   'cd': {'cd'},
+                  'cd': {'cd..'},
                   'python': {'python'}}
     rules = []
     rules += Path(__file__).parent \
