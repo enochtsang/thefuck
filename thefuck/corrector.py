@@ -3,6 +3,16 @@ from .conf import settings
 from .types import Rule
 from . import logs
 
+from thefuck.rules.git import git_category
+from thefuck.rules.brew import brew_category
+from thefuck.rules.django import django_category
+from thefuck.rules.grep import grep_category
+from thefuck.rules.grep import grep_category
+from thefuck.rules.cargo import cargo_category
+from thefuck.rules.maven import maven_category
+from thefuck.rules.rm import rm_category
+from thefuck.rules.cd import cd_category
+from thefuck.rules.tsuru import tsuru_category
 
 def get_loaded_rules(rules_paths):
     """Yields all available rules.
@@ -22,24 +32,24 @@ def get_categories(command):
     """
     CATEGORIES = {folder : [keywords]}
     """
-    CATEGORIES = {'git': {'git'},
-                  'brew': {'brew'},
-                  'django': {'manage.py', 'migrate'},
-                  'grep': {'grep'},
-                  'grep': {'egrep'},
-                  'cargo': {'cargo'},
-                  'maven': {'mvn'},
-                  'rm': {'rm'},
-                  'cd': {'cd'},
-                  'cd': {'cd..'}}
+    CATEGORIES = {'git': git_category.match,
+                  'brew': brew_category.match,
+                  'django': django_category.match,
+                  'grep': grep_category.match,
+                  'grep': grep_category.match,
+                  'cargo': cargo_category.match,
+                  'maven': maven_category.match,
+                  'rm': rm_category.match,
+                  'cd': cd_category.match,
+                  'tsuru': tsuru_category.match}
     rules = []
     rules += Path(__file__).parent \
         .joinpath('rules') \
         .joinpath('other') \
         .glob('*.py')
 
-    for category, keywords in CATEGORIES.items():
-        if set(keywords).issubset(set(command.script.split())):
+    for category, match_func in CATEGORIES.items():
+        if match_func(command):
             logs.debug("Using category: " + category)
             rules += Path(__file__).parent \
                 .joinpath('rules') \
