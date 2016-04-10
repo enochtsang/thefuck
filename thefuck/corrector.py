@@ -32,10 +32,7 @@ def get_categories(command):
                   'pacman': {'pacman'},
                   'pacman': {'yaourt'},
                   'cd': {'cd'},
-                  'python': {'python'},
-                  'apt-get': {'apt-get'},
-                  'apt-get': {'apt-cache'},
-                  'apt-get': {'apt'}}
+                  'python': {'python'}}
     rules = []
     rules += Path(__file__).parent \
         .joinpath('rules') \
