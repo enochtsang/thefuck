@@ -30,11 +30,8 @@ def get_categories(command):
                   'cargo': {'cargo'},
                   'maven': {'mvn'},
                   'rm': {'rm'},
-                  'pacman': {'pacman'},
-                  'pacman': {'yaourt'},
                   'cd': {'cd'},
-                  'cd': {'cd..'},
-                  'python': {'python'}}
+                  'cd': {'cd..'}}
     rules = []
     rules += Path(__file__).parent \
         .joinpath('rules') \
