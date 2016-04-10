@@ -12,7 +12,7 @@ def get_loaded_rules(rules_paths):
 
     """
     for path in rules_paths:
-        if path.name != '__init__.py':
+        if path.name != '__init__.py' and not path.name.endswith('_category.py'):
             rule = Rule.from_path(path)
             if rule.is_enabled:
                 yield rule
