@@ -14,6 +14,7 @@ from thefuck.rules.rm import rm_category
 from thefuck.rules.cd import cd_category
 from thefuck.rules.tsuru import tsuru_category
 from thefuck.rules.apt_get import apt_get_category
+from thefuck.rules.python import python_category
 
 def get_loaded_rules(rules_paths):
     """Yields all available rules.
@@ -43,7 +44,8 @@ def get_categories(command):
                   'rm': rm_category.match,
                   'cd': cd_category.match,
                   'tsuru': tsuru_category.match,
-                  'apt_get': apt_get_category.match}
+                  'apt_get': apt_get_category.match,
+                  'python': python_category.match}
     rules = []
     rules += Path(__file__).parent \
         .joinpath('rules') \
