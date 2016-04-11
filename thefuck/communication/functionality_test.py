@@ -1,17 +1,14 @@
 from socket import *
 import pickle
-from .receiver import receive_from_server
 
+class SexyObject:
+    some_str = None
 
-SERVER_IP = localhost
-SERVER_PORT = 9001
-to_be_corrected = "This fucker is working"
-def send_command(to_be_corrected):
-    client_socket = socket(AF_INT, SOCK_STREAM)
-    client_socket.connect((SERVER_IP, SERVER_PORT))
-    client_socket.send(pickle.dumps(to_be_corrected))
-    Receiver.receive_from_server(client_socket)
+    def __init__(self, somestr):
+        self.some_str = somestr
 
+    def getstr(self):
+        return self.some_str
 
 def receive_from_server(client_socket):
         # messageCount = 0
@@ -30,8 +27,20 @@ def receive_from_server(client_socket):
 
     corrected = pickle.loads(client_socket.recv(1024))
     client_socket.close()
-    print (corrected)
-    
+    print(corrected.getstr())
+
+
+SERVER_IP = 'localhost'
+SERVER_PORT = 9002
+to_be_corrected = SexyObject("This fucker is working")
+
+client_socket = socket(AF_INET, SOCK_STREAM)
+client_socket.connect((SERVER_IP, SERVER_PORT))
+client_socket.send(pickle.dumps(to_be_corrected),2)
+receive_from_server(client_socket)
+
+
+
 
 
 
