@@ -1,7 +1,6 @@
 from socket import *
-from . import logs
+from thefuck import logs
 import pickle
-from .server_facade import receive_corrected
 
 
 def receive_from_server(client_socket):
