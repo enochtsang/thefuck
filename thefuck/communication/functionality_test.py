@@ -1,6 +1,16 @@
 from socket import *
 import pickle
-from .serverFacade import receive_corrected
+from .receiver import receive_from_server
+
+
+SERVER_IP = localhost
+SERVER_PORT = 9001
+to_be_corrected = "This fucker is working"
+def send_command(to_be_corrected):
+    client_socket = socket(AF_INT, SOCK_STREAM)
+    client_socket.connect((SERVER_IP, SERVER_PORT))
+    client_socket.send(pickle.dumps(to_be_corrected))
+    Receiver.receive_from_server(client_socket)
 
 
 def receive_from_server(client_socket):
@@ -20,7 +30,8 @@ def receive_from_server(client_socket):
 
     corrected = pickle.loads(client_socket.recv(1024))
     client_socket.close()
-    return_corrected(corrected)
+    print (corrected)
+    
 
-def return_corrected(corrected_list):
-    ServerFacade.receive_corrected(corrected_list)
+
+
