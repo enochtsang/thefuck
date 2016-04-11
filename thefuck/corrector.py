@@ -114,10 +114,13 @@ def get_corrected_commands(command):
     :rtype: Iterable[thefuck.thefucktypes.CorrectedCommand]
 
     """
-    corrected_commands = server_facade.send_to_server(command)
-    if corrected_commands == None:
+    try:
+        logs.debug("Sending to server")
+        corrected_commands = server_facade.send_to_server(command)
+        return organize_commands(corrected_commands)
+    except ConnectionRefusedError:
         corrected_commands = (
             corrected for rule in get_rules(command)
             if rule.is_match(command)
             for corrected in rule.get_corrected_commands(command))
-    return organize_commands(corrected_commands)
+        return organize_commands(corrected_commands)

@@ -5,7 +5,7 @@ from . import receiver
 
 
 SERVER_IP = "localhost"
-SERVER_PORT = 3027
+SERVER_PORT = 3033
 
 def send_command(to_be_corrected):
     client_socket = socket(AF_INET, SOCK_STREAM)

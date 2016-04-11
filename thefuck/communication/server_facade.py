@@ -5,13 +5,5 @@ import os
 SERVER_IP = "localhost"
 
 def send_to_server(to_be_corrected):
-    logs.debug("Pinging server")
-    response = os.system("ping -c 1 " + SERVER_IP)
-    if response == 0:
-        logs.debug("Server alive")
-        return sender.send_command(to_be_corrected)
-    else:
-        logs.debug("No response from server")
-        return None
-
+    return sender.send_command(to_be_corrected)
 
