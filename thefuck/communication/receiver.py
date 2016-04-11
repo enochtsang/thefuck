@@ -23,7 +23,7 @@ def receive_from_server(client_socket):
     client_socket.close()
     
     if corrected_strings == None:
-        yield None
+        return
     logs.debug("Received response from server")
     corrected_commands = []
     for packaged_command_string in corrected_strings:
