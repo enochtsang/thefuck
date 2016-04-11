@@ -1,26 +1,25 @@
 from socket import *
-import pickle
-from .serverFacade import receive_corrected
+from .clientFacade import receive_command
 
+class SexyObject:
+    some_str = 'na'
 
-def receive_from_server(client_socket):
-        # messageCount = 0
-        # commandList = []
+    def __init__(self, somestr):
+        some_str = somestr
 
-        # while True:
-        #     if messageCount ==0:
-        #         messageCount = clientSocket.recv(4)
-        #   else:
-        #       corrected = pickle.loads(clientSocket.recv(1024))
-        #       commandList.append(corrected)
-        #        if commandList.length == messageCount:
-        #           returnCorrected(commandList)
-        #           clientSocket.close()
-        #           break
+    def getstr(self):
+        return some_str
 
-    corrected = pickle.loads(client_socket.recv(1024))
-    client_socket.close()
-    return_corrected(corrected)
+def listen_for_connection(port):
+    serverPort = port
+    server_socket = socket(AF_INET, SOCK_STREAM)
+    server_socket.bind(('', server_port))
+    server_socket.listen(1)
+    print ('The Server is ready to receive')
+    while 1:
+        connection_socket, addr = server_socket.accept()
+        command - connection_socket.recv(1024)
+        send_for_correction(command, connection_socket)
 
-def return_corrected(corrected_list):
-    ServerFacade.receive_corrected(corrected_list)
+def send_for_correction(command, connection_socket):
+    receive_command(command, connection_socket)
