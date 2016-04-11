@@ -3,6 +3,18 @@ from .conf import settings
 from .types import Rule
 from . import logs
 
+from thefuck.rules.git import git_category
+from thefuck.rules.brew import brew_category
+from thefuck.rules.django import django_category
+from thefuck.rules.grep import grep_category
+from thefuck.rules.grep import grep_category
+from thefuck.rules.cargo import cargo_category
+from thefuck.rules.maven import maven_category
+from thefuck.rules.rm import rm_category
+from thefuck.rules.cd import cd_category
+from thefuck.rules.tsuru import tsuru_category
+from thefuck.rules.apt_get import apt_get_category
+from thefuck.rules.python import python_category
 
 def get_loaded_rules(rules_paths):
     """Yields all available rules.
@@ -12,21 +24,54 @@ def get_loaded_rules(rules_paths):
 
     """
     for path in rules_paths:
-        if path.name != '__init__.py':
+        if path.name != '__init__.py' and not path.name.endswith('_category.py'):
             rule = Rule.from_path(path)
             if rule.is_enabled:
                 yield rule
 
 
-def get_rules():
+def get_categories(command):
+    """
+    CATEGORIES = {folder : [keywords]}
+    """
+    CATEGORIES = {'git': git_category.match,
+                  'brew': brew_category.match,
+                  'django': django_category.match,
+                  'grep': grep_category.match,
+                  'grep': grep_category.match,
+                  'cargo': cargo_category.match,
+                  'maven': maven_category.match,
+                  'rm': rm_category.match,
+                  'cd': cd_category.match,
+                  'tsuru': tsuru_category.match,
+                  'apt_get': apt_get_category.match,
+                  'python': python_category.match}
+    rules = []
+    rules += Path(__file__).parent \
+        .joinpath('rules') \
+        .joinpath('other') \
+        .glob('*.py')
+
+    for category, match_func in CATEGORIES.items():
+        if match_func(command):
+            logs.debug("Using category: " + category)
+            rules += Path(__file__).parent \
+                .joinpath('rules') \
+                .joinpath(category) \
+                .glob('*.py')
+        else:
+            logs.debug("Ignoring category: " + category)
+
+    return rules
+
+
+def get_rules(command):
     """Returns all enabled rules.
 
     :rtype: [Rule]
 
     """
-    bundled = Path(__file__).parent \
-        .joinpath('rules') \
-        .glob('*.py')
+    bundled = get_categories(command)
     user = settings.user_dir.joinpath('rules').glob('*.py')
     return sorted(get_loaded_rules(sorted(bundled) + sorted(user)),
                   key=lambda rule: rule.priority)
@@ -69,7 +114,7 @@ def get_corrected_commands(command):
 
     """
     corrected_commands = (
-        corrected for rule in get_rules()
+        corrected for rule in get_rules(command)
         if rule.is_match(command)
         for corrected in rule.get_corrected_commands(command))
     return organize_commands(corrected_commands)
