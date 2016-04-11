@@ -20,7 +20,4 @@ def receive_from_server(client_socket):
 
     corrected = pickle.loads(client_socket.recv(1024))
     client_socket.close()
-    return_corrected(corrected)
-
-def return_corrected(corrected_list):
-    ServerFacade.receive_corrected(corrected_list)
+    return corrected
