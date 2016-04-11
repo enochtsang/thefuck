@@ -2,6 +2,7 @@ from pathlib import Path
 from .conf import settings
 from .types import Rule
 from . import logs
+from .communication import server_facade
 
 from thefuck.rules.git import git_category
 from thefuck.rules.brew import brew_category
@@ -113,8 +114,10 @@ def get_corrected_commands(command):
     :rtype: Iterable[thefuck.types.CorrectedCommand]
 
     """
-    corrected_commands = (
-        corrected for rule in get_rules(command)
-        if rule.is_match(command)
-        for corrected in rule.get_corrected_commands(command))
+    corrected_commands = server_facade.send_to_server(command)
+    if corrected_commands == None: 
+        corrected_commands = (
+            corrected for rule in get_rules(command)
+            if rule.is_match(command)
+            for corrected in rule.get_corrected_commands(command))
     return organize_commands(corrected_commands)

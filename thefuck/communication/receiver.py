@@ -1,4 +1,5 @@
 from socket import *
+from . import logs
 import pickle
 from .server_facade import receive_corrected
 
@@ -19,5 +20,6 @@ def receive_from_server(client_socket):
         #           break
 
     corrected = pickle.loads(client_socket.recv(1024))
+    logs.debug("Received response from server")
     client_socket.close()
     return corrected
