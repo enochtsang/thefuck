@@ -1,6 +1,6 @@
 from socket import *
 import pickle
-from .serverFacade import receive_corrected
+from .server_facade import receive_corrected
 
 
 def receive_from_server(client_socket):
