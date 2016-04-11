@@ -2,7 +2,7 @@ from . import sender
 from thefuck import logs
 import os
 
-SERVER_IP = "162.246.157.118"
+SERVER_IP = "localhost"
 
 def send_to_server(to_be_corrected):
     logs.debug("Pinging server")

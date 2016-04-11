@@ -115,7 +115,8 @@ def get_corrected_commands(command):
 
     """
     corrected_commands = server_facade.send_to_server(command)
-    if corrected_commands == None: 
+    logs.debug("GOT SOME SHIT: " + corrected_commands)
+    if corrected_commands == None:
         corrected_commands = (
             corrected for rule in get_rules(command)
             if rule.is_match(command)
