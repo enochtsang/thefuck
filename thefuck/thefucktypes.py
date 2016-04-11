@@ -283,4 +283,5 @@ class CorrectedCommand(object):
         # This depends on correct setting of PYTHONIOENCODING by the alias:
         logs.debug(u'PYTHONIOENCODING: {}'.format(
             os.environ.get('PYTHONIOENCODING', '!!not-set!!')))
+        logs.debug("ABOUT TO RUN " + self.script)
         print(self.script)

@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from warnings import warn
 from pprint import pformat
 import sys
-from . import logs, types
+from . import logs, thefucktypes
 from .shells import shell
 from .conf import settings
 from .corrector import get_corrected_commands
@@ -23,7 +23,7 @@ def fix_command():
         logs.debug(u'Run with settings: {}'.format(pformat(settings)))
 
         try:
-            command = types.Command.from_raw_script(sys.argv[1:])
+            command = thefucktypes.Command.from_raw_script(sys.argv[1:])
         except EmptyCommand:
             logs.debug('Empty command, nothing to do')
             return

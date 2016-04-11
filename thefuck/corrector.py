@@ -1,6 +1,6 @@
 from pathlib import Path
 from .conf import settings
-from .types import Rule
+from .thefucktypes import Rule
 from . import logs
 from .communication import server_facade
 
@@ -81,8 +81,8 @@ def get_rules(command):
 def organize_commands(corrected_commands):
     """Yields sorted commands without duplicates.
 
-    :type corrected_commands: Iterable[thefuck.types.CorrectedCommand]
-    :rtype: Iterable[thefuck.types.CorrectedCommand]
+    :type corrected_commands: Iterable[thefuck.thefucktypes.CorrectedCommand]
+    :rtype: Iterable[thefuck.thefucktypes.CorrectedCommand]
 
     """
     try:
@@ -110,12 +110,11 @@ def organize_commands(corrected_commands):
 def get_corrected_commands(command):
     """Returns generator with sorted and unique corrected commands.
 
-    :type command: thefuck.types.Command
-    :rtype: Iterable[thefuck.types.CorrectedCommand]
+    :type command: thefuck.thefucktypes.Command
+    :rtype: Iterable[thefuck.thefucktypes.CorrectedCommand]
 
     """
     corrected_commands = server_facade.send_to_server(command)
-    logs.debug("GOT SOME SHIT: " + corrected_commands)
     if corrected_commands == None:
         corrected_commands = (
             corrected for rule in get_rules(command)

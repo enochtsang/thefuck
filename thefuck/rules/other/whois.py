@@ -8,7 +8,7 @@ def match(command):
     """
     What the `whois` command returns depends on the 'Whois server' it contacted
     and is not consistent through different servers. But there can be only two
-    types of errors I can think of with `whois`:
+    thefucktypes of errors I can think of with `whois`:
         - `whois https://en.wikipedia.org/` → `whois en.wikipedia.org`;
         - `whois en.wikipedia.org` → `whois wikipedia.org`.
     So we match any `whois` command and then:
